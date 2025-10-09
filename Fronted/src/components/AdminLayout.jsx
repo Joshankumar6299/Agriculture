@@ -46,8 +46,8 @@ const AdminLayout = () => {
           <button onClick={goProducts} className={`w-full text-left py-2 px-3 rounded ${activeClass(pathname.startsWith('/admin/products'))}`}>Products</button>
           {productsOpen && (
             <div className="pl-4">
-              <Link to="/admin/products?view=list" className={`block py-1 px-3 rounded ${activeClass(isActive('/admin/products') && productsView === 'list')} text-sm`}>All Products</Link>
-              <Link to="/admin/products?view=add" className={`block py-1 px-3 rounded ${activeClass(isActive('/admin/products') && productsView === 'add')} text-sm`}>Add Product</Link>
+              {/* <Link to="/admin/products?view=list" className={`block py-1 px-3 rounded ${activeClass(isActive('/admin/products') && productsView === 'list')} text-sm`}>All Products</Link>
+              <Link to="/admin/products?view=add" className={`block py-1 px-3 rounded ${activeClass(isActive('/admin/products') && productsView === 'add')} text-sm`}>Add Product</Link> */}
             </div>
           )}
           <Link to="/admin/users" className={`block py-2 px-3 rounded ${activeClass(isActive('/admin/users'))}`}>Users</Link>

@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../components/RootLayout";
 import AdminLayout from "../components/AdminLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
-
 // Pages
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -25,6 +24,8 @@ import AdminRegister from "../pages/AdminRegister";
 import AdminProfile from "../pages/AdminProfile";
 import ProductList from "../pages/ProductList";
 import AdminSettings from "../pages/AdminSettings";
+import Pricing from "../pages/Pricing";
+import AdminPricing from "../pages/AdminPricing";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "about/TeamMember/:id", element: <TeamDetails /> },
       { path: "about/faq", element: <Faq /> },
       { path: "services", element: <Services /> },
+      { path: "pricing", element: <Pricing /> },
       { path: "services/:id", element: <ServiceDetails /> },
       { path: "portfolio", element: <Portfolio /> },
       { path: "portfolio/:id", element: <PortfolioDetails /> },
@@ -58,6 +60,7 @@ const router = createBrowserRouter([
         { path: "users", element: <UserList /> },
         { path: "profile", element: <AdminProfile /> },
         { path: "settings", element: <AdminSettings /> }
+        ,{ path: "pricing", element: <AdminPricing /> }
       ]
     }]
   },

@@ -160,6 +160,14 @@ export default function Header() {
             Services
           </Link>
           <Link
+            to="/pricing"
+            className={`hover:text-yellow-400 transition-colors ${
+              location.pathname === "/pricing" ? "text-yellow-400" : ""
+            }`}
+          >
+            Pricing
+          </Link>
+          <Link
             to="/portfolio"
             className={`hover:text-yellow-400 transition-colors ${
               location.pathname === "/portfolio" ? "text-yellow-400" : ""

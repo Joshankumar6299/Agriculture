@@ -15,6 +15,8 @@ export default function Services() {
           </p>
         </div>
 
+        {/* Pricing moved to a dedicated /pricing page */}
+
         <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {servicesData.map((service) => (
             <Link to={`/services/${service.id}`} key={service.id} className="group block">

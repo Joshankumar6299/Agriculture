@@ -9,6 +9,7 @@ const path = require('path');
 // Import routes
 const authRoutes = require('./auth.js');
 const productRoutes = require('./products.js');
+const pricingRoutes = require('./pricingRoute.js');
 
 // Initialize Express app
 const app = express();
@@ -51,6 +52,7 @@ app.get('/', (req, res) => {
 // Use the imported routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/pricing', pricingRoutes);
 
 // --- 4. Start the server ---
 const PORT = process.env.PORT || 3000;
