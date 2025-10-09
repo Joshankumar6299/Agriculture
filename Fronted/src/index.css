@@ -1,0 +1,6 @@
+/* 
+  With Tailwind CSS v4 and the @tailwindcss/vite plugin, 
+  the @tailwind directives are no longer needed here.
+  This file is now for your own custom CSS.
+*/
+@import "tailwindcss";
