@@ -39,6 +39,9 @@ const AdminSchema = new mongoose.Schema({
   profileImagePath: {
     type: String
   },
+  // Password Reset Fields
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 
 }, { timestamps: true });
 

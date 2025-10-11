@@ -1,60 +1,63 @@
-# Modern Agriculture (Agri) — Fullstack Application
+# Modern Agriculture - Fullstack Application
 
-This repository contains a small fullstack application for a modern agriculture platform. It includes a Node/Express backend with MongoDB (Mongoose) and a React frontend (Vite + Tailwind).
+This repository contains a full-stack application for a modern agriculture platform. It features a Node.js/Express backend with a MongoDB database (using Mongoose) and a React frontend built with Vite and styled with Tailwind CSS.
 
-This README documents how to run the project locally, environment variables, available scripts, important API endpoints, and recommended next steps (webhooks and security hardening).
+The platform supports user and admin roles, JWT-based authentication, profile management with image uploads, product listings, and a subscription system integrated with Stripe.
 
 ## Table of contents
-- Project layout
-- Requirements
-- Environment variables
-- Backend: install & run
-- Frontend: install & run
-- API endpoints (summary)
-- Data models (summary)
-- Admin & Pricing flow
-- Next steps / recommended improvements
+- [Project Layout](#project-layout)
+- [Requirements](#requirements)
+- [Environment Variables](#environment-variables)
+- [Backend Setup](#backend-setup)
+- [Frontend Setup](#frontend-setup)
+- [API Endpoints](#api-endpoints)
+- [Data Models](#data-models)
+- [Key Features](#key-features)
+- [Next Steps / Recommended Improvements](#next-steps--recommended-improvements)
 
 ## Project layout
 
 Top-level folders:
 
 - `Backend/` — Express server, Mongoose models and API routes.
-- `Fronted/` — React frontend (Vite + Tailwind). Note: the folder name is `Fronted` in this repo.
+- `Fronted/` — React frontend (Vite + Tailwind).
 
 Key files:
 
 - `Backend/server.js` — bootstraps the Express server and registers routes.
-- `Backend/auth.js` — authentication routes (register/login/user), JWT middleware and admin checks.
+- `Backend/auth.js` — Handles user/admin registration, login, profile updates, and password reset.
 - `Backend/products.js` — product CRUD and image upload (multer).
 - `Backend/pricingRoute.js` — public pricing, admin pricing save, and Stripe Checkout session creation.
-- `Backend/Pricing.js`, `Backend/Product.js`, `Backend/Payment.js` — Mongoose models.
+- `Backend/User.js`, `Backend/Admin.js`, `Backend/Product.js`, `Backend/Pricing.js`, `Backend/Payment.js` — Mongoose models.
 - `Fronted/src/routers/Routes.jsx` — SPA routes (public and admin protected routes).
-- `Fronted/src/pages/Pricing.jsx` — public pricing page; creates checkout session and redirects to Stripe.
-- `Fronted/src/pages/AdminPricing.jsx` — admin UI to edit pricing tiers and set Stripe Price IDs.
+- `Fronted/src/pages/Login.jsx` — User and Admin login page.
+- `Fronted/src/pages/Profile.jsx` — User profile page for viewing and editing information.
+- `Fronted/src/pages/AdminDashboard.jsx` — Main dashboard for administrators.
 
 ## Requirements
 
 - Node.js 18+ (tested with Node 18+) and npm
 - MongoDB (local or cloud)
-- Stripe account for Checkout (if you want to test payments)
+- Stripe account for payment processing (optional)
+- An email service provider (like Ethereal, SendGrid, etc.) for password resets.
 
 ## Environment variables
 
-Create a `.env` in `Backend/` or set environment variables in your shell. The server uses:
+Create a `.env` file in the `Backend/` directory.
 
-- `MONGO_URI` — MongoDB connection string (default: `mongodb://127.0.0.1:27017/agri`).
-- `PORT` — port for the backend server (default: `3000`).
-- `JWT_SECRET` — secret used to sign JWT tokens (use a secure random value in production).
-- `STRIPE_SECRET` — your Stripe secret key (needed to create Checkout sessions).
-
-Example `.env` (Backend/.env):
+#### `Backend/.env`
 
 ```
 MONGO_URI=mongodb://127.0.0.1:27017/agri
 PORT=3000
 JWT_SECRET=some_long_random_secret
 STRIPE_SECRET=sk_test_xxx
+
+# Email settings (example using Ethereal)
+EMAIL_HOST=smtp.ethereal.email
+EMAIL_PORT=587
+EMAIL_USER=your-ethereal-username@ethereal.email
+EMAIL_PASS=your-ethereal-password
 ```
 
 ## Backend: install & run

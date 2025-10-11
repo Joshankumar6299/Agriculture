@@ -88,9 +88,9 @@ export default function SplitLoginPage() {
             />
 
             <div className="text-right text-sm mb-4">
-              <a href="#" className="text-gray-600 hover:text-blue-500">
+              <Link to="/forgot-password" replace className="text-gray-600 hover:text-blue-500">
                 Forgot your password?
-              </a>
+              </Link>
             </div>
 
             <button

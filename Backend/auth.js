@@ -86,7 +86,7 @@ router.post('/register', upload.single('profileImage'), async (req, res) => {
       gender,
       address,
       // Save the path to the profile image if it exists
-      profileImagePath: req.file ? req.file.path : null
+      profileImagePath: req.file ? req.file.path.replace(/\\/g, '/') : null
     });
 
     // Hash password
@@ -99,7 +99,7 @@ router.post('/register', upload.single('profileImage'), async (req, res) => {
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error('Registration error:', error.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -151,7 +151,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -179,7 +179,7 @@ router.get('/user', authMiddleware, async (req, res) => {
     return res.status(404).json({ message: 'User not found' });
   } catch (error) {
     console.error('Get user error:', error.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
@@ -192,7 +192,7 @@ router.get('/users', [authMiddleware, adminMiddleware], async (req, res) => {
     res.json(users);
   } catch (error) {
     console.error('Get users error:', error.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
@@ -218,7 +218,7 @@ router.post('/admin/register', upload.single('profileImage'), async (req, res) =
       mobile,
       gender,
       address,
-      profileImagePath: req.file ? req.file.path : null
+      profileImagePath: req.file ? req.file.path.replace(/\\/g, '/') : null,
     });
 
     // Hash password
@@ -229,7 +229,7 @@ router.post('/admin/register', upload.single('profileImage'), async (req, res) =
     res.status(201).json({ message: 'Admin user registered successfully' });
   } catch (error) {
     console.error('Admin registration error:', error.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -243,7 +243,60 @@ router.get('/admins', [authMiddleware, adminMiddleware], async (req, res) => {
     res.json(admins);
   } catch (error) {
     console.error('Get admins error:', error.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// --- UPDATE USER/ADMIN PROFILE ---
+// @route   PUT api/auth/user
+// @desc    Update user or admin profile data
+router.put('/user', [authMiddleware, upload.single('profileImage')], async (req, res) => {
+  const { fullName, mobile, gender, address } = req.body;
+  // The array fields are sent as JSON strings from FormData
+  const agricultureTypes = req.body.agricultureTypes ? JSON.parse(req.body.agricultureTypes) : undefined;
+  const farmingTypes = req.body.farmingTypes ? JSON.parse(req.body.farmingTypes) : undefined;
+
+  try {
+    // Find user by ID from token. Check Admin collection first, then User.
+    let user = await Admin.findById(req.user.id);
+    let userRole = 'admin';
+
+    if (!user) {
+      user = await User.findById(req.user.id);
+      userRole = 'user';
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user fields
+    user.fullName = fullName ?? user.fullName;
+    user.mobile = mobile ?? user.mobile;
+    user.gender = gender ?? user.gender;
+    user.address = address ?? user.address;
+
+    // For users, update preference fields
+    if (userRole === 'user') {
+      user.agricultureTypes = agricultureTypes ?? user.agricultureTypes;
+      user.farmingTypes = farmingTypes ?? user.farmingTypes;
+    }
+
+    // Update profile image path if a new file was uploaded
+    if (req.file) {
+      user.profileImagePath = req.file.path.replace(/\\/g, '/');
+    }
+
+    await user.save();
+
+    const userResponse = user.toObject();
+    delete userResponse.password;
+    userResponse.role = userRole;
+
+    res.json(userResponse);
+  } catch (error) {
+    console.error('Update user error:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 

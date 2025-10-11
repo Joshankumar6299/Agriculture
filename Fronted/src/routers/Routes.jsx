@@ -26,6 +26,8 @@ import ProductList from "../pages/ProductList";
 import AdminSettings from "../pages/AdminSettings";
 import Pricing from "../pages/Pricing";
 import AdminPricing from "../pages/AdminPricing";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,8 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/profile", element: <Profile /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/reset-password/:token", element: <ResetPassword /> },
   { path: "/register", element: <Register /> },
   { path: "admin/register", element: <AdminRegister /> },
 ]);

@@ -39,6 +39,17 @@ const UserSchema = new mongoose.Schema({
   profileImagePath: {
     type: String
   },
+  // Preferences and subscription info for users
+  agricultureTypes: { type: [String], default: [] }, // e.g. ['organic','non-organic']
+  farmingTypes: { type: [String], default: [] }, // e.g. ['grains','vegetables']
+  subscription: {
+    tierId: { type: String, default: null },
+    status: { type: String, enum: ['active','cancelled','none'], default: 'none' },
+    stripeSessionId: { type: String, default: null }
+  },
+  // Password Reset Fields
+  passwordResetToken: String,
+  passwordResetExpires: Date,
   role: {
     type: String,
     enum: ['user', 'admin'],
